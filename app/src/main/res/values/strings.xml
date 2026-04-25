@@ -1,3 +1,40 @@
 <resources>
     <string name="app_name">TactoLM</string>
+    <string name="app_tagline">Tactile Intelligence for Everyone</string>
+
+    <!-- Status -->
+    <string name="status_active">PIPELINE ACTIVE</string>
+    <string name="status_inactive">PIPELINE INACTIVE</string>
+    <string name="status_listening">LISTENING</string>
+
+    <!-- Input section -->
+    <string name="input_label">Signal Input</string>
+    <string name="input_hint">Enter notification text to classify…</string>
+    <string name="btn_analyze">ANALYZE &amp; DISPATCH</string>
+    <string name="btn_clear">Clear</string>
+
+    <!-- Demo scenarios -->
+    <string name="demo_section_title">Bengaluru Scenarios</string>
+    <string name="demo_bbmp">BBMP Health</string>
+    <string name="demo_emergency">Emergency</string>
+    <string name="demo_social">Social</string>
+
+    <!-- Output section -->
+    <string name="output_section_title">Classification Output</string>
+    <string name="output_urgency_label">URGENCY TIER</string>
+    <string name="output_tacton_label">TACTON</string>
+    <string name="output_payload_label">PAYLOAD</string>
+    <string name="output_idle">Awaiting signal…</string>
+
+    <!-- Latency -->
+    <string name="latency_fast_label">FAST TRACK</string>
+    <string name="latency_gemini_label">GEMINI</string>
+    <string name="latency_idle">— ms</string>
+
+    <!-- Tracks -->
+    <string name="track_fast">Fast Track</string>
+    <string name="track_smart">Smart Track</string>
+
+    <!-- Footer -->
+    <string name="footer_note">Powered by Gemini 2.0 Flash · Build for Bengaluru</string>
 </resources>
