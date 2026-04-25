@@ -481,13 +481,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:baselineAligned="false"
+                    android:minHeight="100dp">
 
                     <!-- BBMP Health -->
                     <LinearLayout
                         android:id="@+id/btn_scenario_bbmp"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/bg_scenario_health"
                         android:orientation="vertical"
@@ -506,11 +508,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="BBMP\nHealth"
+                            android:text="BBMP Health"
                             android:textColor="@color/tier_health"
                             android:textSize="12sp"
-                            android:fontFamily="sans-serif-medium"
-                            android:lineSpacingMultiplier="1.2" />
+                            android:fontFamily="sans-serif-medium" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -527,7 +528,7 @@
                     <LinearLayout
                         android:id="@+id/btn_scenario_emergency"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/bg_scenario_critical"
                         android:orientation="vertical"
@@ -567,7 +568,7 @@
                     <LinearLayout
                         android:id="@+id/btn_scenario_social"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/bg_scenario_social"
                         android:orientation="vertical"
@@ -608,111 +609,13 @@
             </LinearLayout>
 
             <!-- ─────────────────────────────────────
-                 TEACH MODE SHORTCUT
-            ───────────────────────────────────── -->
-            <LinearLayout
-                android:id="@+id/btn_teach_mode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_teach_mode"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="12dp"
-                android:padding="16dp"
-                android:clickable="true"
-                android:focusable="true">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Teach Mode"
-                        android:textColor="@color/text_primary"
-                        android:textSize="15sp"
-                        android:fontFamily="sans-serif-medium" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Play all 6 tactons in sequence"
-                        android:textColor="@color/text_tertiary"
-                        android:textSize="12sp"
-                        android:layout_marginTop="2dp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="›"
-                    android:textColor="@color/accent_primary"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
-            <!-- ─────────────────────────────────────
-                 NOTIFICATIONS FEED SHORTCUT
-            ───────────────────────────────────── -->
-            <LinearLayout
-                android:id="@+id/btn_notifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_teach_mode"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="12dp"
-                android:padding="16dp"
-                android:clickable="true"
-                android:focusable="true">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Notifications Feed"
-                        android:textColor="@color/text_primary"
-                        android:textSize="15sp"
-                        android:fontFamily="sans-serif-medium" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="View recent alerts and haptic history"
-                        android:textColor="@color/text_tertiary"
-                        android:textSize="12sp"
-                        android:layout_marginTop="2dp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="›"
-                    android:textColor="@color/accent_secondary"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
-            <!-- ─────────────────────────────────────
                  FOOTER
             ───────────────────────────────────── -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="100dp"
                 android:gravity="center"
                 android:text="@string/footer_note"
                 android:textColor="@color/text_disabled"
@@ -722,5 +625,10 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <!-- ─────────────────────────────────────
+         FLOATING BOTTOM NAVIGATION PILL
+    ───────────────────────────────────── -->
+    <include layout="@layout/layout_nav_bar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
