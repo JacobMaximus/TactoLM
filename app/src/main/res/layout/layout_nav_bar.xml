@@ -11,6 +11,37 @@
     android:gravity="center"
     android:orientation="horizontal">
 
+    <!-- Home Mode -->
+    <LinearLayout
+        android:id="@+id/nav_btn_home"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="6dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:id="@+id/nav_icon_home"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_nav_home"
+            android:contentDescription="Home" />
+
+        <TextView
+            android:id="@+id/nav_label_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Home"
+            android:textSize="10sp"
+            android:fontFamily="sans-serif-medium" />
+
+    </LinearLayout>
+
     <!-- Teach Mode -->
     <LinearLayout
         android:id="@+id/nav_btn_teach"
