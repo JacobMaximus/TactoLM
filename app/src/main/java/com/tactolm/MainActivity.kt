@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -17,7 +19,7 @@ import com.tactolm.haptics.LRADispatcher
 import com.tactolm.haptics.TactonLibrary
 import com.tactolm.ui.WaveformView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     // ── Haptic dispatcher ────────────────────────────────────────────────
     private lateinit var dispatcher: LRADispatcher
@@ -37,8 +39,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnScenarioBbmp: LinearLayout
     private lateinit var btnScenarioEmergency: LinearLayout
     private lateinit var btnScenarioSocial: LinearLayout
-    private lateinit var btnTeachMode: LinearLayout
-    private lateinit var btnNotifications: LinearLayout
+    // Custom nav bar — managed by BaseActivity
 
     // ── Demo scenario texts ───────────────────────────────────────────────
     private val scenarioBbmp = "BBMP Health Department: Dengue outbreak reported in Whitefield area. Fumigation drive scheduled tomorrow 6AM–10AM. Residents advised to clear stagnant water. Aarogya Setu alert ID: KA2024-DEN-447"
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         dispatcher = LRADispatcher(this)
 
         bindViews()
+        setupNavBar(NAV_TEACH)
         setupClickListeners()
     }
 
@@ -83,8 +85,6 @@ class MainActivity : AppCompatActivity() {
         btnScenarioBbmp      = findViewById(R.id.btn_scenario_bbmp)
         btnScenarioEmergency = findViewById(R.id.btn_scenario_emergency)
         btnScenarioSocial    = findViewById(R.id.btn_scenario_social)
-        btnTeachMode         = findViewById(R.id.btn_teach_mode)
-        btnNotifications     = findViewById(R.id.btn_notifications)
     }
 
     private fun setupClickListeners() {
@@ -99,16 +99,8 @@ class MainActivity : AppCompatActivity() {
         btnScenarioSocial.setOnClickListener {
             classifyAndDisplay(scenarioSocial)
         }
-
-        // ── Navigation ───────────────────────────────────────────────────
-        btnTeachMode.setOnClickListener {
-            startActivity(Intent(this, TeachModeActivity::class.java))
-        }
-
-        btnNotifications.setOnClickListener {
-            startActivity(Intent(this, NotificationsActivity::class.java))
-        }
     }
+
 
     // ── Notification access status indicator ─────────────────────────────────
     private fun updateListenerStatus() {

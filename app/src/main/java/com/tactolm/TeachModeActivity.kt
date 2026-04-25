@@ -18,7 +18,7 @@ import com.tactolm.haptics.Tacton
 import com.tactolm.haptics.TactonLibrary
 import com.tactolm.haptics.UrgencyTier
 
-class TeachModeActivity : AppCompatActivity() {
+class TeachModeActivity : BaseActivity() {
 
     private lateinit var dispatcher: LRADispatcher
 
@@ -44,6 +44,7 @@ class TeachModeActivity : AppCompatActivity() {
         dispatcher = LRADispatcher(this)
 
         bindViews()
+        setupNavBar(NAV_TEACH)
         setupListeners()
     }
 

@@ -519,4 +519,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <include layout="@layout/layout_nav_bar" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
