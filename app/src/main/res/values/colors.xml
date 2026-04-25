@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- TactoLM Dark Background System -->
+    <color name="bg_deep">#070A10</color>
+    <color name="bg_surface">#0D1117</color>
+    <color name="bg_card">#111827</color>
+    <color name="bg_card_elevated">#1A2236</color>
+    <color name="bg_input">#0F1520</color>
+
+    <!-- Borders / Strokes -->
+    <color name="stroke_subtle">#1E2D45</color>
+    <color name="stroke_medium">#2A3F5F</color>
+    <color name="stroke_active">#3B5998</color>
+
+    <!-- Urgency Tier Colors -->
+    <color name="tier_critical">#FF3B30</color>
+    <color name="tier_critical_bg">#2A0F0C</color>
+    <color name="tier_critical_glow">#FF3B3040</color>
+
+    <color name="tier_health">#34C759</color>
+    <color name="tier_health_bg">#0C2115</color>
+    <color name="tier_health_glow">#34C75940</color>
+
+    <color name="tier_social">#007AFF</color>
+    <color name="tier_social_bg">#0A1A2E</color>
+    <color name="tier_social_glow">#007AFF40</color>
+
+    <color name="tier_ambient">#8E8E93</color>
+    <color name="tier_ambient_bg">#161618</color>
+
+    <color name="tier_informational">#FF9F0A</color>
+    <color name="tier_informational_bg">#251A05</color>
+
+    <!-- Accent / Brand -->
+    <color name="accent_primary">#4F8EFF</color>
+    <color name="accent_secondary">#8B5CF6</color>
+    <color name="accent_glow">#4F8EFF30</color>
+
+    <!-- Text -->
+    <color name="text_primary">#F0F4FF</color>
+    <color name="text_secondary">#8A9BBE</color>
+    <color name="text_tertiary">#4A5568</color>
+    <color name="text_disabled">#2D3748</color>
+
+    <!-- Status -->
+    <color name="status_active">#34C759</color>
+    <color name="status_inactive">#3A3A3C</color>
+    <color name="status_processing">#FF9F0A</color>
+
+    <!-- Waveform viz -->
+    <color name="waveform_bar">#4F8EFF</color>
+    <color name="waveform_bar_dim">#1A2D4F</color>
 </resources>
