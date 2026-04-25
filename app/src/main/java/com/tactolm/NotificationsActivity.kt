@@ -23,7 +23,7 @@ import com.tactolm.haptics.TactonLibrary
 import com.tactolm.pipeline.NotificationStore
 import com.tactolm.pipeline.NotificationStore.TactoNotification
 
-class NotificationsActivity : AppCompatActivity() {
+class NotificationsActivity : BaseActivity() {
 
     private lateinit var dispatcher: LRADispatcher
     private lateinit var feedContainer: LinearLayout
@@ -46,6 +46,8 @@ class NotificationsActivity : AppCompatActivity() {
         feedContainer  = findViewById(R.id.feed_container)
         bannerGrant    = findViewById(R.id.banner_grant)
         btnGrantAccess = findViewById(R.id.btn_grant_access)
+
+        setupNavBar(NAV_FEED)
 
         findViewById<LinearLayout>(R.id.btn_back).setOnClickListener { finish() }
 

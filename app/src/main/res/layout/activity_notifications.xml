@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="40dp">
+            android:paddingBottom="100dp">
 
             <!-- ── HEADER ──────────────────────────────────────────────── -->
             <LinearLayout
@@ -145,5 +145,7 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/layout_nav_bar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
