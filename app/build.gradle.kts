@@ -46,6 +46,9 @@ android {
     buildFeatures {
         buildConfig = true
     }
+    androidResources {
+        noCompress("tflite")
+    }
 }
 
 dependencies {
@@ -58,6 +61,7 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.coordinatorlayout)
     implementation(libs.kotlinx.coroutines.android)
+    implementation("org.tensorflow:tensorflow-lite-task-audio:0.4.4")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

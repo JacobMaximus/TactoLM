@@ -90,6 +90,8 @@ class MainActivity : BaseActivity() {
         btnScenarioBbmp      = findViewById(R.id.btn_scenario_bbmp)
         btnScenarioEmergency = findViewById(R.id.btn_scenario_emergency)
         btnScenarioSocial    = findViewById(R.id.btn_scenario_social)
+        val btnReset         = findViewById<android.view.View>(R.id.btn_reset_scenario)
+        btnReset.setOnClickListener { resetToIdle() }
     }
 
     private fun setupClickListeners() {
@@ -266,4 +268,23 @@ class MainActivity : BaseActivity() {
         val trackSrc: String,
         val amps: IntArray
     )
+    private fun resetToIdle() {
+        tvTactonName.text = "idle"
+        tvTactonName.setTextColor(ContextCompat.getColor(this, R.color.accent_primary))
+        
+        tvUrgencyTier.text = "—"
+        tvUrgencyTier.background.setTint(ContextCompat.getColor(this, R.color.stroke_subtle))
+        tvUrgencyTier.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
+        
+        tvTactonId.text = "—"
+        tvPayload.text = getString(R.string.output_idle)
+        tvTrackSource.visibility = android.view.View.INVISIBLE
+        tvRationale.visibility = android.view.View.GONE
+        
+        tvFastLatency.text = "0 ms"
+        tvGeminiLatency.text = "0 ms"
+        
+        waveformView.stop()
+    }
+
 }

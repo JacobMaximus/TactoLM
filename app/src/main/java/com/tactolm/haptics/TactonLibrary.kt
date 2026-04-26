@@ -133,10 +133,25 @@ object TactonLibrary {
         amps        = intArrayOf(120,  0,160,  0,200,  0,220,  0,190,  0,140,  0, 80,   0)
     )
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // TACTON 7 — doorbell_chime
+    // Simulates a classic "ding-dong" doorbell with two notes.
+    // High-amplitude short pulse (ding) followed by lower-amplitude longer pulse (dong).
+    // Repeated twice for clarity.
+    // ─────────────────────────────────────────────────────────────────────────
+    val DOORBELL_CHIME = Tacton(
+        id          = "doorbell_chime",
+        displayName = "Doorbell Chime",
+        description = "Classic ding-dong simulation — INFORMATIONAL tier",
+        urgencyTier = UrgencyTier.INFORMATIONAL,
+        timings     = longArrayOf(150, 100, 300, 400, 150, 100, 300,   0),
+        amps        = intArrayOf(255,   0, 160,   0, 255,   0, 160,   0)
+    )
+
     // ── Lookup helpers ────────────────────────────────────────────────────────
 
     val ALL: List<Tacton> = listOf(
-        PULSE_BURST, HEALTH_RAMP, GRIT_TEXTURE, SLOW_RAMP, CONFIRM_TAP, WAIT_HOLD, NAV_SLIDE
+        PULSE_BURST, HEALTH_RAMP, GRIT_TEXTURE, SLOW_RAMP, CONFIRM_TAP, WAIT_HOLD, NAV_SLIDE, DOORBELL_CHIME
     )
 
     private val byId: Map<String, Tacton> = ALL.associateBy { it.id }
