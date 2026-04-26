@@ -11,6 +11,13 @@
     <color name="bg_card_elevated">#0A0A0A</color>  <!-- elevated black -->
     <color name="bg_input">#050505</color>
 
+    <!-- New Premium Dark Theme -->
+    <color name="bg_gradient_start">#021B13</color>
+    <color name="bg_gradient_end">#062F24</color>
+    <color name="accent_neon">#00FF88</color>
+    <color name="bg_glass">#800A1F14</color>
+    <color name="stroke_glass">#3300FF88</color>
+
     <!-- Borders / Strokes -->
     <color name="stroke_subtle">#1E3D25</color>  <!-- green-tinted border — clearly visible on card -->
     <color name="stroke_medium">#2A5535</color>  <!-- stronger border -->
@@ -47,7 +54,7 @@
     <color name="text_disabled">#233328</color>
 
     <!-- Status -->
-    <color name="status_active">#39D353</color>
+    <color name="status_active">@color/accent_neon</color>
     <color name="status_inactive">#1A2E1C</color>
     <color name="status_processing">#FF9F0A</color>
 

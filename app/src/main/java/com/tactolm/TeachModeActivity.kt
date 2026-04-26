@@ -11,7 +11,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
+
 import androidx.core.content.ContextCompat
 import com.tactolm.haptics.LRADispatcher
 import com.tactolm.haptics.Tacton
@@ -27,7 +27,7 @@ class TeachModeActivity : BaseActivity() {
     private lateinit var tvActiveDesc: TextView
     private lateinit var tvActiveTier: TextView
     private lateinit var viewPulseRing: View
-    private lateinit var cardActiveIndicator: CardView
+    private lateinit var cardActiveIndicator: LinearLayout
 
     // Tacton buttons
     private lateinit var btnPulseBurst: LinearLayout
@@ -116,13 +116,19 @@ class TeachModeActivity : BaseActivity() {
         tvActiveTier.text = tierLabel
         tvActiveTier.setTextColor(ContextCompat.getColor(this, tierColor))
 
-        // Briefly highlight the indicator card
-        cardActiveIndicator.animate()
-            .alpha(0.85f)
-            .setDuration(80)
-            .withEndAction {
-                cardActiveIndicator.animate().alpha(1f).setDuration(200).start()
-            }.start()
+        // Briefly pulse the indicator card
+        pulseCard(cardActiveIndicator)
+    }
+
+    private fun pulseCard(card: View) {
+        val sx = ObjectAnimator.ofFloat(card, View.SCALE_X, 1f, 1.016f, 1f)
+        val sy = ObjectAnimator.ofFloat(card, View.SCALE_Y, 1f, 1.016f, 1f)
+        AnimatorSet().apply {
+            playTogether(sx, sy)
+            duration = 400
+            interpolator = android.view.animation.OvershootInterpolator(2f)
+            start()
+        }
     }
 
     private fun animateButtonPress(view: View) {

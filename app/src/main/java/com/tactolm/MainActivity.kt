@@ -17,6 +17,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.tactolm.haptics.LRADispatcher
 import com.tactolm.haptics.TactonLibrary
+import com.tactolm.pipeline.AudioRecognitionService
 import com.tactolm.ui.WaveformView
 
 class MainActivity : BaseActivity() {
@@ -28,7 +29,7 @@ class MainActivity : BaseActivity() {
     private lateinit var tvStatus: TextView
     private lateinit var statusDot: View
     private lateinit var tvFastLatency: TextView
-    private lateinit var tvGeminiLatency: TextView
+    private lateinit var tvDoorbellStatus: TextView
     private lateinit var waveformView: WaveformView
     private lateinit var tvTactonName: TextView
     private lateinit var tvUrgencyTier: TextView
@@ -73,6 +74,17 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         updateListenerStatus()
+        updateDoorbellStatus()
+    }
+
+    private fun updateDoorbellStatus() {
+        if (::tvDoorbellStatus.isInitialized) {
+            val isListening = AudioRecognitionService.isRunning
+            tvDoorbellStatus.text = if (isListening) "Active" else "Inactive"
+            tvDoorbellStatus.setTextColor(
+                ContextCompat.getColor(this, if (isListening) R.color.accent_neon else R.color.text_primary)
+            )
+        }
     }
 
     /** Buttons that Vol Up/Down cycle through when page is locked. */
@@ -86,7 +98,7 @@ class MainActivity : BaseActivity() {
         tvStatus         = findViewById(R.id.tv_status)
         statusDot        = findViewById(R.id.status_dot)
         tvFastLatency    = findViewById(R.id.tv_fast_latency)
-        tvGeminiLatency  = findViewById(R.id.tv_gemini_latency)
+        tvDoorbellStatus = findViewById(R.id.tv_doorbell_status)
         waveformView     = findViewById(R.id.waveform_view)
         tvTactonName     = findViewById(R.id.tv_tacton_name)
         tvUrgencyTier    = findViewById(R.id.tv_urgency_tier)
@@ -177,7 +189,7 @@ class MainActivity : BaseActivity() {
 
     private fun applyResult(r: ClassificationResult) {
         animateTextChange(tvFastLatency, r.fastMs)
-        animateTextChange(tvGeminiLatency, r.geminiMs)
+
 
         tvUrgencyTier.text = r.urgency
         tvUrgencyTier.setTextColor(urgencyColor(r.urgency))
@@ -191,15 +203,16 @@ class MainActivity : BaseActivity() {
         tvTrackSource.text = r.trackSrc
         tvTrackSource.visibility = View.VISIBLE
 
-        tvTactonName.text = r.tacton
+        tvTactonName.text = "active"
         waveformView.play(r.amps)
 
         pulseCard(findViewById(R.id.card_output))
+        pulseCard(findViewById(R.id.card_waveform))
     }
 
     private fun resetOutput() {
         tvFastLatency.text = "— ms"
-        tvGeminiLatency.text = "— ms"
+
         tvUrgencyTier.text = "—"
         tvUrgencyTier.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
         tvUrgencyTier.setBackgroundResource(R.drawable.bg_urgency_badge)
@@ -284,7 +297,7 @@ class MainActivity : BaseActivity() {
         tvRationale.visibility = android.view.View.GONE
         
         tvFastLatency.text = "0 ms"
-        tvGeminiLatency.text = "0 ms"
+
         
         waveformView.stop()
     }

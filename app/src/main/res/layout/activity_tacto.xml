@@ -91,12 +91,14 @@
             android:text="SCAN"
             android:textSize="26sp"
             android:textStyle="bold"
-            android:textColor="#0A0A0A"
+            android:textColor="@color/accent_neon"
             android:fontFamily="sans-serif-medium"
             android:letterSpacing="0.08" />
     </FrameLayout>
 
     <!-- ── FLOATING BOTTOM NAVIGATION PILL ───────────────────────────── -->
+
+
     <!-- Wrapped in FrameLayout so layout_gravity/margins on the pill work
          correctly inside a ConstraintLayout parent -->
     <FrameLayout

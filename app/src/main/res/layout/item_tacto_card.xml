@@ -47,7 +47,7 @@
             android:text="CATEGORY"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:textColor="#4ECDC4"
+            android:textColor="@color/accent_neon"
             android:fontFamily="sans-serif"
             android:letterSpacing="0.06"
             android:layout_marginBottom="6dp" />
