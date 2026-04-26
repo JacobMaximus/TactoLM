@@ -66,7 +66,7 @@ class MainActivity : BaseActivity() {
         dispatcher = LRADispatcher(this)
 
         bindViews()
-        setupNavBar(NAV_TEACH)
+        setupNavBar(NAV_HOME)
         setupClickListeners()
     }
 

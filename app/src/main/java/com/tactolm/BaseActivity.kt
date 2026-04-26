@@ -17,34 +17,41 @@ import androidx.core.content.ContextCompat
 abstract class BaseActivity : AppCompatActivity() {
 
     companion object {
-        const val NAV_TEACH    = 0
-        const val NAV_FEED     = 1
-        const val NAV_VISION   = 2
-        const val NAV_DOORBELL = 3
+        const val NAV_HOME     = 0
+        const val NAV_TEACH    = 1
+        const val NAV_FEED     = 2
+        const val NAV_VISION   = 3
+        const val NAV_DOORBELL = 4
     }
 
+    private lateinit var navBtnHome: LinearLayout
     private lateinit var navBtnTeach: LinearLayout
     private lateinit var navBtnFeed: LinearLayout
     private lateinit var navBtnVision: LinearLayout
     private lateinit var navBtnDoorbell: LinearLayout
+    private lateinit var navIconHome: ImageView
     private lateinit var navIconTeach: ImageView
     private lateinit var navIconFeed: ImageView
     private lateinit var navIconVision: ImageView
     private lateinit var navIconDoorbell: ImageView
+    private lateinit var navLabelHome: TextView
     private lateinit var navLabelTeach: TextView
     private lateinit var navLabelFeed: TextView
     private lateinit var navLabelVision: TextView
     private lateinit var navLabelDoorbell: TextView
 
     protected fun setupNavBar(activeTab: Int) {
+        navBtnHome     = findViewById(R.id.nav_btn_home)     ?: return
         navBtnTeach    = findViewById(R.id.nav_btn_teach)    ?: return
         navBtnFeed     = findViewById(R.id.nav_btn_feed)     ?: return
         navBtnVision   = findViewById(R.id.nav_btn_vision)   ?: return
         navBtnDoorbell = findViewById(R.id.nav_btn_doorbell) ?: return
+        navIconHome     = findViewById(R.id.nav_icon_home)
         navIconTeach    = findViewById(R.id.nav_icon_teach)
         navIconFeed     = findViewById(R.id.nav_icon_feed)
         navIconVision   = findViewById(R.id.nav_icon_vision)
         navIconDoorbell = findViewById(R.id.nav_icon_doorbell)
+        navLabelHome     = findViewById(R.id.nav_label_home)
         navLabelTeach    = findViewById(R.id.nav_label_teach)
         navLabelFeed     = findViewById(R.id.nav_label_feed)
         navLabelVision   = findViewById(R.id.nav_label_vision)
@@ -52,9 +59,15 @@ abstract class BaseActivity : AppCompatActivity() {
 
         applyActiveState(activeTab)
 
+        navBtnHome.setOnClickListener {
+            if (activeTab != NAV_HOME) {
+                startActivity(Intent(this, MainActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+            }
+        }
         navBtnTeach.setOnClickListener {
             if (activeTab != NAV_TEACH) {
-                startActivity(Intent(this, MainActivity::class.java)
+                startActivity(Intent(this, TeachModeActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
             }
         }
@@ -76,9 +89,9 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun applyActiveState(activeTab: Int) {
-        val allBtns   = listOf(navBtnTeach, navBtnFeed, navBtnVision, navBtnDoorbell)
-        val allIcons  = listOf(navIconTeach, navIconFeed, navIconVision, navIconDoorbell)
-        val allLabels = listOf(navLabelTeach, navLabelFeed, navLabelVision, navLabelDoorbell)
+        val allBtns   = listOf(navBtnHome, navBtnTeach, navBtnFeed, navBtnVision, navBtnDoorbell)
+        val allIcons  = listOf(navIconHome, navIconTeach, navIconFeed, navIconVision, navIconDoorbell)
+        val allLabels = listOf(navLabelHome, navLabelTeach, navLabelFeed, navLabelVision, navLabelDoorbell)
         val activeColor   = ContextCompat.getColor(this, R.color.accent_primary)
         val inactiveColor = ContextCompat.getColor(this, R.color.text_secondary)
 
