@@ -75,6 +75,13 @@ class MainActivity : BaseActivity() {
         updateListenerStatus()
     }
 
+    /** Buttons that Vol Up/Down cycle through when page is locked. */
+    override fun getNavigableViews() = listOf(
+        btnScenarioBbmp,
+        btnScenarioEmergency,
+        btnScenarioSocial
+    )
+
     private fun bindViews() {
         tvStatus         = findViewById(R.id.tv_status)
         statusDot        = findViewById(R.id.status_dot)
@@ -129,12 +136,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun isNotificationAccessGranted(): Boolean {
-        val flat = android.provider.Settings.Secure.getString(
-            contentResolver, "enabled_notification_listeners"
-        ) ?: return false
-        return flat.contains(packageName)
-    }
+
 
     // ─────────────────────────────────────────────────────────────────────────
     // Stub classification — will be replaced by TactoLMPipeline

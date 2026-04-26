@@ -113,6 +113,8 @@ class NotificationsActivity : BaseActivity() {
         try { unregisterReceiver(notifReceiver) } catch (_: Exception) {}
     }
 
+    override fun isPageLockSupported(): Boolean = false
+
     override fun onDestroy() {
         super.onDestroy()
         dispatcher.cancel()
@@ -312,10 +314,6 @@ class NotificationsActivity : BaseActivity() {
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
-    private fun isNotificationAccessGranted(): Boolean {
-        val flat = Settings.Secure.getString(contentResolver, "enabled_notification_listeners") ?: ""
-        return flat.contains(packageName)
-    }
 
     private fun getTactonForId(id: String) = when (id) {
         "pulse_burst"  -> TactonLibrary.PULSE_BURST

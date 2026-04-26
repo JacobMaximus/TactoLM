@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- bg_card_focused.xml
+     Same shape as bg_card but with a bright neon-green accent stroke
+     to show which button currently has volume-key focus. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/bg_card" />
+    <corners android:radius="10dp" />
+    <stroke
+        android:width="2dp"
+        android:color="#39D353" />
+</shape>
