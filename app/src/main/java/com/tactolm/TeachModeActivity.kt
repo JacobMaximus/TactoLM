@@ -75,6 +75,15 @@ class TeachModeActivity : BaseActivity() {
         btnWaitHold.setOnClickListener    { fire(TactonLibrary.WAIT_HOLD,    btnWaitHold) }
     }
 
+    override fun getNavigableViews(): List<View> = listOf(
+        btnPulseBurst,
+        btnHealthRamp,
+        btnSlowRamp,
+        btnNavSlide,
+        btnConfirmTap,
+        btnWaitHold
+    )
+
     private fun fire(tacton: Tacton, sourceButton: View) {
         // 1. Dispatch to hardware — this is the fast path, happens first
         dispatcher.dispatch(tacton)
