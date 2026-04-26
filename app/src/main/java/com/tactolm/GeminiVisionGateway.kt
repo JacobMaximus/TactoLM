@@ -113,7 +113,7 @@ You are a vision analysis assistant embedded in a tactile navigation app for dea
                     modelName = "gemini-2.5-flash",
                     apiKey = apiKey,
                     generationConfig = generationConfig {
-                        maxOutputTokens = 1024
+                        maxOutputTokens = 8192
                         temperature = 0.1f // Lowered from 0.2 to make it even more literal
                         topP = 0.95f       // Focuses the output on the most likely tokens
                         topK = 40          // Limits the "vocabulary" per step

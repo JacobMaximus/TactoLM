@@ -111,4 +111,22 @@
 
     </FrameLayout>
 
+    <!-- ── Loading spinner (visible while awaiting Gemini response) ──────── -->
+    <!--
+        Pinned to all four parent edges so ConstraintLayout centres it.
+        visibility="gone" at rest — TactoActivity shows/hides it around the
+        Gemini API call.
+    -->
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
