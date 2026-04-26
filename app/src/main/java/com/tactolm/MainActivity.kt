@@ -1,5 +1,5 @@
 package com.tactolm
-
+import android.util.Log
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
@@ -48,6 +48,11 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+            Log.d("TactoLM_TEST", "APP STARTED - LOG SYSTEM WORKING")
+
+        
 
         // Edge-to-edge, forced dark
         WindowCompat.setDecorFitsSystemWindows(window, false)
