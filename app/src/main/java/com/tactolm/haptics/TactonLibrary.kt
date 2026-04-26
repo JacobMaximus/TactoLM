@@ -42,11 +42,11 @@ object TactonLibrary {
     // ─────────────────────────────────────────────────────────────────────────
     val PULSE_BURST = Tacton(
         id          = "pulse_burst",
-        displayName = "Pulse Burst",
-        description = "Three sharp hard pulses — CRITICAL urgency",
+        displayName = "Emergency",
+        description = "Three long, hard buzzes — CRITICAL urgency",
         urgencyTier = UrgencyTier.CRITICAL,
-        timings     = longArrayOf(80, 40, 80, 40, 80, 200),
-        amps        = intArrayOf( 255,  0,255,  0,255,   0)
+        timings     = longArrayOf(400, 150, 400, 150, 600, 200),
+        amps        = intArrayOf( 255,   0, 255,   0, 255,   0)
     )
 
     // ─────────────────────────────────────────────────────────────────────────
