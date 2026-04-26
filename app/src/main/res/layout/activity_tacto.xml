@@ -17,8 +17,7 @@
     android:id="@+id/tacto_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_screen"
-    android:fitsSystemWindows="true">
+    android:background="@drawable/bg_screen">
 
     <!-- ── Scene summary text ────────────────────────────────────────────── -->
     <TextView
@@ -75,7 +74,7 @@
         android:id="@+id/tacto_btn_scan"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/tacto_bg_scan_button"
         android:clickable="true"
         android:focusable="true"
@@ -98,12 +97,18 @@
     </FrameLayout>
 
     <!-- ── FLOATING BOTTOM NAVIGATION PILL ───────────────────────────── -->
-    <include layout="@layout/layout_nav_bar"
+    <!-- Wrapped in FrameLayout so layout_gravity/margins on the pill work
+         correctly inside a ConstraintLayout parent -->
+    <FrameLayout
         android:id="@+id/nav_bar_include"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <include layout="@layout/layout_nav_bar" />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
