@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginBottom="20dp"
-    android:background="@drawable/bg_nav_pill"
-    android:baselineAligned="false"
-    android:elevation="12dp"
-    android:gravity="center"
-    android:orientation="horizontal">
+    android:background="@drawable/bg_nav_gradient"
+    android:paddingTop="32dp">
 
-    <!-- Home Mode -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/layout_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_nav_pill"
+            android:baselineAligned="false"
+            android:elevation="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        <!-- Home Mode -->
     <LinearLayout
         android:id="@+id/nav_btn_home"
         android:layout_width="0dp"
@@ -166,4 +183,8 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

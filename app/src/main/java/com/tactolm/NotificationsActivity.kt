@@ -289,12 +289,16 @@ class NotificationsActivity : BaseActivity() {
                 ViewGroup.LayoutParams.MATCH_PARENT, dp(200)
             )
         }
-        placeholder.addView(TextView(this).apply {
-            text = "\u25cb"
-            textSize = 40f
-            gravity = android.view.Gravity.CENTER
-            setTextColor(ContextCompat.getColor(this@NotificationsActivity, R.color.text_disabled))
-        })
+        val iconView = ImageView(this).apply {
+            setImageResource(R.drawable.ic_nav_feed)
+            imageTintList = android.content.res.ColorStateList.valueOf(
+                ContextCompat.getColor(this@NotificationsActivity, R.color.text_disabled)
+            )
+            layoutParams = LinearLayout.LayoutParams(dp(52), dp(52)).also {
+                it.gravity = android.view.Gravity.CENTER_HORIZONTAL
+            }
+        }
+        placeholder.addView(iconView)
         placeholder.addView(TextView(this).apply {
             text = "Waiting for notifications…"
             textSize = 15f

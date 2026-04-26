@@ -14,13 +14,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.cardview.widget.CardView
+
 import androidx.core.content.ContextCompat
 import com.tactolm.pipeline.AudioRecognitionService
 
 class DoorbellActivity : BaseActivity() {
 
-    private lateinit var cardToggle: CardView
+    private lateinit var cardToggle: LinearLayout
     private lateinit var viewPulseRing: View
     private lateinit var ivStatusIcon: ImageView
     private lateinit var tvStatusTitle: TextView
@@ -130,18 +130,21 @@ class DoorbellActivity : BaseActivity() {
     }
 
     private fun updateUI() {
+        val toggleCard = findViewById<View>(R.id.card_doorbell_toggle)
         if (isListening) {
             tvStatusTitle.text = "Listening for Doorbells..."
-            tvStatusTitle.setTextColor(ContextCompat.getColor(this, R.color.accent_primary))
+            tvStatusTitle.setTextColor(ContextCompat.getColor(this, R.color.accent_neon))
             tvStatusDesc.text = "Tap to stop"
-            ivStatusIcon.setColorFilter(ContextCompat.getColor(this, R.color.accent_primary))
+            ivStatusIcon.setColorFilter(ContextCompat.getColor(this, R.color.accent_neon))
             viewPulseRing.visibility = View.VISIBLE
+            toggleCard.setBackgroundResource(R.drawable.bg_card_glowing)
         } else {
             tvStatusTitle.text = "Doorbell is Off"
             tvStatusTitle.setTextColor(ContextCompat.getColor(this, R.color.text_primary))
             tvStatusDesc.text = "Tap to start listening"
             ivStatusIcon.setColorFilter(ContextCompat.getColor(this, R.color.text_disabled))
             viewPulseRing.visibility = View.GONE
+            toggleCard.setBackgroundResource(R.drawable.bg_glass_card)
         }
     }
 

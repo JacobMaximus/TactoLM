@@ -1,30 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    TactoLM launcher icon foreground.
+    Stylised "T" with:
+      - Rounded top bar
+      - Vertical stem
+      - Two Braille dots on the left
+      - Three wifi-arc waves on the right
+    All drawn in the brand green #7ED321 on a 108×108 adaptive canvas.
+    The safe zone is the inner 72×72 (18dp inset on every side).
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path android:pathData="M31,63.928c0,0 6.4,-11 12.1,-13.1c7.2,-2.6 26,-1.4 26,-1.4l38.1,38.1L107,108.928l-32,-1L31,63.928z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:endX="85.84757"
-                android:endY="92.4963"
-                android:startX="42.9492"
-                android:startY="49.59793"
-                android:type="linear">
-                <item
-                    android:color="#44000000"
-                    android:offset="0.0" />
-                <item
-                    android:color="#00000000"
-                    android:offset="1.0" />
-            </gradient>
-        </aapt:attr>
-    </path>
+
+    <!-- ── Top bar of the T (rounded rectangle) ── -->
     <path
-        android:fillColor="#FFFFFF"
-        android:fillType="nonZero"
-        android:pathData="M65.3,45.828l3.8,-6.6c0.2,-0.4 0.1,-0.9 -0.3,-1.1c-0.4,-0.2 -0.9,-0.1 -1.1,0.3l-3.9,6.7c-6.3,-2.8 -13.4,-2.8 -19.7,0l-3.9,-6.7c-0.2,-0.4 -0.7,-0.5 -1.1,-0.3C38.8,38.328 38.7,38.828 38.9,39.228l3.8,6.6C36.2,49.428 31.7,56.028 31,63.928h46C76.3,56.028 71.8,49.428 65.3,45.828zM43.4,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2c-0.3,-0.7 -0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C45.3,56.528 44.5,57.328 43.4,57.328L43.4,57.328zM64.6,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2s-0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C66.5,56.528 65.6,57.328 64.6,57.328L64.6,57.328z"
-        android:strokeWidth="1"
-        android:strokeColor="#00000000" />
+        android:fillColor="#7ED321"
+        android:pathData="
+          M32,26
+          Q32,20 38,20
+          L70,20
+          Q76,20 76,26
+          L76,36
+          Q76,42 70,42
+          L38,42
+          Q32,42 32,36
+          Z" />
+
+    <!-- ── Vertical stem of the T ── -->
+    <path
+        android:fillColor="#7ED321"
+        android:pathData="
+          M48,42
+          L60,42
+          L60,88
+          Q60,92 54,92
+          Q48,92 48,88
+          Z" />
+
+    <!-- ── Braille dots (two circles, left of the stem) ── -->
+    <path
+        android:fillColor="#7ED321"
+        android:pathData="M36,52 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" />
+    <path
+        android:fillColor="#7ED321"
+        android:pathData="M36,66 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" />
+
+    <!-- ── WiFi arc 1 (smallest, closest to stem) ── -->
+    <path
+        android:strokeColor="#7ED321"
+        android:strokeWidth="3.5"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"
+        android:pathData="M64,62 Q70,60 70,54 Q70,48 64,46" />
+
+    <!-- ── WiFi arc 2 (medium) ── -->
+    <path
+        android:strokeColor="#7ED321"
+        android:strokeWidth="3.5"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"
+        android:pathData="M64,70 Q78,66 78,54 Q78,42 64,38" />
+
+    <!-- ── WiFi arc 3 (largest) ── -->
+    <path
+        android:strokeColor="#7ED321"
+        android:strokeWidth="3.5"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"
+        android:pathData="M64,78 Q86,72 86,54 Q86,36 64,30" />
+
 </vector>

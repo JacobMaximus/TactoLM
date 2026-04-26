@@ -2,6 +2,10 @@ package com.tactolm
 import android.util.Log
 import android.os.VibrationEffect
 import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
@@ -15,6 +19,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AlphaAnimation
+import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
@@ -375,6 +380,7 @@ class TactoActivity : BaseActivity() {
 
         card.alpha = 0f
         cardContainer.addView(card)
+        pulseCard(card)
 
         // Fade in
         val fadeIn = AlphaAnimation(0f, 1f).apply {
@@ -384,6 +390,17 @@ class TactoActivity : BaseActivity() {
         Log.d("TactoLM_UI", "Card fade-in animation started for: " + item.label)
         card.startAnimation(fadeIn)
         card.animate().alpha(1f).setDuration(400).start()
+    }
+
+    private fun pulseCard(card: View) {
+        val sx = ObjectAnimator.ofFloat(card, View.SCALE_X, 1f, 1.016f, 1f)
+        val sy = ObjectAnimator.ofFloat(card, View.SCALE_Y, 1f, 1.016f, 1f)
+        AnimatorSet().apply {
+            playTogether(sx, sy)
+            duration = 400
+            interpolator = android.view.animation.OvershootInterpolator(2f)
+            start()
+        }
     }
 
     private fun reanimateCards() {
