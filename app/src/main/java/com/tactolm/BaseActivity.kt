@@ -63,7 +63,6 @@ abstract class BaseActivity : AppCompatActivity() {
     // Page-lock state
     private var isPageLocked = false
     private var focusedNavIndex = 0
-    private var originalBackgrounds = mutableMapOf<View, android.graphics.drawable.Drawable?>()
 
     // Simultaneous-press and long-press detection
     private var volUpHeld   = false
@@ -291,20 +290,16 @@ abstract class BaseActivity : AppCompatActivity() {
         val views = getNavigableViews()
         if (views.isEmpty()) return
         
-        // Remove focus from old view
+        // Clear foreground ring from old view
         if (views.indices.contains(focusedNavIndex)) {
-            val oldView = views[focusedNavIndex]
-            originalBackgrounds[oldView]?.let { oldView.background = it }
+            views[focusedNavIndex].foreground = null
         }
 
         focusedNavIndex = (focusedNavIndex + delta + views.size) % views.size
         
-        // Add focus to new view
+        // Apply foreground ring to new view (background is untouched)
         val newView = views[focusedNavIndex]
-        if (!originalBackgrounds.containsKey(newView)) {
-            originalBackgrounds[newView] = newView.background
-        }
-        newView.setBackgroundResource(R.drawable.bg_card_focused)
+        newView.foreground = ContextCompat.getDrawable(this, R.drawable.fg_focus_ring)
 
         newView.apply {
             requestFocus()
@@ -357,18 +352,12 @@ abstract class BaseActivity : AppCompatActivity() {
             focusedNavIndex = 0
             if (views.isNotEmpty()) {
                 val firstView = views[0]
-                if (!originalBackgrounds.containsKey(firstView)) {
-                    originalBackgrounds[firstView] = firstView.background
-                }
-                firstView.setBackgroundResource(R.drawable.bg_card_focused)
+                firstView.foreground = ContextCompat.getDrawable(this, R.drawable.fg_focus_ring)
                 firstView.requestFocus()
             }
         } else {
-            // Unlock: clear backgrounds
-            views.forEach { view ->
-                originalBackgrounds[view]?.let { view.background = it }
-            }
-            originalBackgrounds.clear()
+            // Unlock: clear all foreground rings
+            views.forEach { it.foreground = null }
 
             // Single confirm tap = "unlocked"
             volumeDispatcher?.dispatch(TactonLibrary.CONFIRM_TAP)
