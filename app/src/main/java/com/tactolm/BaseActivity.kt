@@ -40,6 +40,16 @@ abstract class BaseActivity : AppCompatActivity() {
     private lateinit var navLabelVision: TextView
     private lateinit var navLabelDoorbell: TextView
 
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+        super.onCreate(savedInstanceState)
+        overridePendingTransition(0, 0)
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(0, 0)
+    }
+
     protected fun setupNavBar(activeTab: Int) {
         navBtnHome     = findViewById(R.id.nav_btn_home)     ?: return
         navBtnTeach    = findViewById(R.id.nav_btn_teach)    ?: return
@@ -63,28 +73,36 @@ abstract class BaseActivity : AppCompatActivity() {
             if (activeTab != NAV_HOME) {
                 startActivity(Intent(this, MainActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+                overridePendingTransition(0, 0)
             }
         }
         navBtnTeach.setOnClickListener {
             if (activeTab != NAV_TEACH) {
                 startActivity(Intent(this, TeachModeActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+                overridePendingTransition(0, 0)
             }
         }
         navBtnFeed.setOnClickListener {
             if (activeTab != NAV_FEED) {
                 startActivity(Intent(this, NotificationsActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+                overridePendingTransition(0, 0)
             }
         }
         navBtnVision.setOnClickListener {
             if (activeTab != NAV_VISION) {
                 startActivity(Intent(this, TactoActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+                overridePendingTransition(0, 0)
             }
         }
         navBtnDoorbell.setOnClickListener {
-            Toast.makeText(this, "Door Bell: Not implemented yet", Toast.LENGTH_SHORT).show()
+            if (activeTab != NAV_DOORBELL) {
+                startActivity(Intent(this, DoorbellActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+                overridePendingTransition(0, 0)
+            }
         }
     }
 

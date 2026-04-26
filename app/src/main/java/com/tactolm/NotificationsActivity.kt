@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -158,12 +159,22 @@ class NotificationsActivity : BaseActivity() {
             }
         })
 
-        // App icon
-        inner.addView(TextView(this).apply {
+        // Category vibration icon
+        val iconResId = when (item.tactonId) {
+            "pulse_burst"  -> R.drawable.ic_emergency
+            "health_ramp"  -> R.drawable.ic_health
+            "slow_ramp"    -> R.drawable.ic_transit
+            "nav_slide"    -> R.drawable.ic_navigation
+            "confirm_tap"  -> R.drawable.ic_system
+            "wait_hold"    -> R.drawable.ic_processing
+            else           -> R.drawable.ic_bell
+        }
+        
+        inner.addView(ImageView(this).apply {
             layoutParams = LinearLayout.LayoutParams(dp(38), dp(38)).also { it.marginEnd = dp(12) }
-            text = item.appIcon
-            textSize = 18f
-            gravity = android.view.Gravity.CENTER
+            setImageResource(iconResId)
+            imageTintList = android.content.res.ColorStateList.valueOf(ContextCompat.getColor(this@NotificationsActivity, item.tierColorRes))
+            setPadding(dp(8), dp(8), dp(8), dp(8))
             background = GradientDrawable().apply {
                 shape = GradientDrawable.OVAL
                 setColor(ContextCompat.getColor(this@NotificationsActivity, R.color.bg_card_elevated))
@@ -261,9 +272,10 @@ class NotificationsActivity : BaseActivity() {
             )
         }
         placeholder.addView(TextView(this).apply {
-            text = "🔔"
+            text = "\u25cb"
             textSize = 40f
             gravity = android.view.Gravity.CENTER
+            setTextColor(ContextCompat.getColor(this@NotificationsActivity, R.color.text_disabled))
         })
         placeholder.addView(TextView(this).apply {
             text = "Waiting for notifications…"

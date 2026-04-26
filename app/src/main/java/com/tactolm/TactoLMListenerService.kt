@@ -48,25 +48,25 @@ class TactoLMListenerService : NotificationListenerService() {
 
         private val TIME_FORMAT = SimpleDateFormat("hh:mm a", Locale.getDefault())
 
-        /** Emoji icon map for common apps — used as a visual fallback. */
+        /** Symbol icon map for common apps — uses letter initials, no emojis. */
         private val ICON_MAP = mapOf(
-            "com.whatsapp"             to "💬",
-            "com.google.android.gm"   to "📧",
-            "com.google.android.apps.messaging" to "💬",
-            "com.phonepe.app"         to "💳",
-            "in.amazon.mShop.android.shopping" to "📦",
-            "com.swiggy.android"      to "🍱",
-            "com.zomato.android"      to "🍕",
-            "com.ola.client"          to "🚗",
-            "com.rapido.passenger"    to "🏍️",
-            "com.paytm.android"       to "💰",
-            "com.google.android.youtube" to "▶️",
-            "com.instagram.android"   to "📸",
-            "com.twitter.android"     to "🐦",
-            "com.linkedin.android"    to "💼",
-            "com.bmtc"                to "🚌",
-            "in.gov.uidai.mAadhaarPlus" to "🪪",
-            "com.google.android.apps.maps" to "🗺️"
+            "com.whatsapp"             to "W",
+            "com.google.android.gm"   to "M",
+            "com.google.android.apps.messaging" to "M",
+            "com.phonepe.app"         to "P",
+            "in.amazon.mShop.android.shopping" to "A",
+            "com.swiggy.android"      to "S",
+            "com.zomato.android"      to "Z",
+            "com.ola.client"          to "O",
+            "com.rapido.passenger"    to "R",
+            "com.paytm.android"       to "P",
+            "com.google.android.youtube" to "Y",
+            "com.instagram.android"   to "I",
+            "com.twitter.android"     to "X",
+            "com.linkedin.android"    to "L",
+            "com.bmtc"                to "B",
+            "in.gov.uidai.mAadhaarPlus" to "A",
+            "com.google.android.apps.maps" to "G"
         )
     }
 
@@ -159,14 +159,14 @@ class TactoLMListenerService : NotificationListenerService() {
     private fun appIconFallback(appName: String): String {
         val lower = appName.lowercase()
         return when {
-            lower.contains("bank") || lower.contains("pay") -> "💳"
-            lower.contains("food") || lower.contains("eat") -> "🍱"
-            lower.contains("map") || lower.contains("nav")  -> "🗺️"
-            lower.contains("health") || lower.contains("med") -> "💊"
-            lower.contains("news")                           -> "📰"
-            lower.contains("mail") || lower.contains("email") -> "📧"
-            lower.contains("shop") || lower.contains("order") -> "📦"
-            else                                             -> "🔔"
+            lower.contains("bank") || lower.contains("pay") -> "$"
+            lower.contains("food") || lower.contains("eat") -> "~"
+            lower.contains("map")  || lower.contains("nav") -> ">"
+            lower.contains("health")|| lower.contains("med") -> "+"
+            lower.contains("news")                          -> "#"
+            lower.contains("mail") || lower.contains("email")-> "@"
+            lower.contains("shop") || lower.contains("order")-> "*"
+            else -> appName.take(1).uppercase()
         }
     }
 

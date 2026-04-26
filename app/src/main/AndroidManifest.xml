@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -42,6 +44,12 @@
             android:exported="false"
             android:parentActivityName=".MainActivity" />
 
+        <!-- ── Doorbell Activity ──────────────────────────────────────── -->
+        <activity
+            android:name=".DoorbellActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
         <!-- ── NotificationListenerService ───────────────────────────── -->
         <service
             android:name=".TactoLMListenerService"
@@ -52,6 +60,12 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <!-- ── Doorbell Audio Recognition Service ──────────────────────── -->
+        <service
+            android:name=".pipeline.AudioRecognitionService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
 
         <!-- ── TactoActivity (camera vision / haptic navigation) ─────────── -->
         <activity
