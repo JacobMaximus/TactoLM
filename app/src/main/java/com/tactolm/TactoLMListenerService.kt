@@ -1,6 +1,7 @@
 package com.tactolm
 
 import android.app.Notification
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.service.notification.NotificationListenerService
@@ -87,6 +88,16 @@ class TactoLMListenerService : NotificationListenerService() {
 
         // Ignore system & noisy packages
         if (IGNORED_PACKAGES.contains(pkg)) return
+
+        // ── APP FILTER LOGIC ──────────────────────────────────────────────
+        val prefs = getSharedPreferences("TactoLM_Prefs", Context.MODE_PRIVATE)
+        val selectedApps = prefs.getStringSet("selected_apps", emptySet()) ?: emptySet()
+        
+        // If user hasn't selected any apps, we monitor NO apps (per user request)
+        if (selectedApps.isEmpty()) return
+        
+        // If this app is not in the selected list, ignore it
+        if (!selectedApps.contains(pkg)) return
 
         // Ignore grouped summary notifications (contain child notifications)
         val notification = sbn.notification ?: return

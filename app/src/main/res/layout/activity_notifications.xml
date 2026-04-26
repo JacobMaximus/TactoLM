@@ -73,6 +73,26 @@
 
                 </LinearLayout>
 
+                <!-- Filter Apps Button -->
+                <LinearLayout
+                    android:id="@+id/btn_filter_apps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_card"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Apps"
+                        android:textColor="@color/accent_primary"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <View
@@ -132,6 +152,37 @@
                         android:fontFamily="sans-serif-medium" />
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ── NO APPS SELECTED BANNER ──────────────────────────────── -->
+            <LinearLayout
+                android:id="@+id/banner_no_apps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_tacton_row_social"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚠  No Apps Selected"
+                    android:textColor="@color/tier_social"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TactoLM is currently ignoring all notifications. Tap 'Select Apps' to pick which apps you want to monitor."
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:lineSpacingMultiplier="1.4"
+                    android:layout_marginTop="6dp" />
 
             </LinearLayout>
 
