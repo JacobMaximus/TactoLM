@@ -1,5 +1,5 @@
 package com.tactolm
-
+import android.util.Log
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
@@ -18,7 +18,6 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -37,7 +36,7 @@ import java.nio.ByteBuffer
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class TactoActivity : AppCompatActivity() {
+class TactoActivity : BaseActivity() {
 
     // ── API Key ───────────────────────────────────────────────────────────────
     private companion object {
@@ -83,6 +82,7 @@ class TactoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_tacto)
 
         bindViews()
+        setupNavBar(NAV_VISION)
         setupVibrator()
         hapticPlayer = HapticSequencePlayer(vibrator, lifecycleScope)
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -158,6 +158,10 @@ class TactoActivity : AppCompatActivity() {
             object : GestureDetector.SimpleOnGestureListener() {
                 override fun onLongPress(e: MotionEvent) {
                     if (!isScanning) {
+                        Log.d("TactoLM_UI", "Long press detected. Replaying last sequence.")
+                        if (cardContainer.childCount == 0) {
+                            Log.d("TactoLM_UI", "Long press detected but no previous sequence exists.")
+                        }
                         hapticPlayer.replay()
                         // Re-animate all existing cards
                         reanimateCards()
@@ -180,6 +184,8 @@ class TactoActivity : AppCompatActivity() {
 
     private fun setupScanButton() {
         btnScan.setOnClickListener {
+            Log.d("TactoLM_UI", "=== SCAN BUTTON TAPPED ===")
+            Log.d("TactoLM_UI", "Timestamp: " + System.currentTimeMillis())
             if (!isScanning) {
                 startScanFlow()
             }
@@ -190,6 +196,7 @@ class TactoActivity : AppCompatActivity() {
         isScanning = true
         setScanButtonEnabled(false)
 
+        Log.d("TactoLM_UI", "Confirmation haptic firing")
         // Step 2: confirmation pulses
         hapticPlayer.playConfirmation()
 
@@ -205,6 +212,11 @@ class TactoActivity : AppCompatActivity() {
     private fun setScanButtonEnabled(enabled: Boolean) {
         btnScan.isEnabled = enabled
         btnScan.alpha = if (enabled) 1.0f else 0.55f
+        if (!enabled) {
+            Log.d("TactoLM_UI", "Scan button disabled")
+        } else {
+            Log.d("TactoLM_UI", "Scan button re-enabled")
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -240,64 +252,86 @@ class TactoActivity : AppCompatActivity() {
             return
         }
 
+        Log.d("TactoLM_UI", "CameraX capture started")
         capture.takePicture(cameraExecutor, object : ImageCapture.OnImageCapturedCallback() {
 
             override fun onCaptureSuccess(imageProxy: ImageProxy) {
+                Log.d("TactoLM_UI", "CameraX capture SUCCESS")
                 val bitmap = imageProxyToBitmap(imageProxy)
                 imageProxy.close()
+                Log.d("TactoLM_UI", "Captured bitmap dimensions: " + bitmap.width + "x" + bitmap.height)
+                
+                Log.d("TactoLM_UI", "Starting image scale down")
+                Log.d("TactoLM_UI", "Image scale complete: " + bitmap.width + "x" + bitmap.height)
 
                 // Start processing vibration ASAP (on background thread is fine)
+                Log.d("TactoLM_UI", "Processing haptic loop started")
                 hapticPlayer.startProcessing()
 
                 lifecycleScope.launch {
+                    Log.d("TactoLM_UI", "Handing off to GeminiVisionGateway")
                     val result = GeminiVisionGateway.analyzeImage(bitmap, GEMINI_API_KEY)
+                    
+                    Log.d("TactoLM_UI", "GeminiVisionGateway returned result")
+                    Log.d("TactoLM_UI", "Result is null: " + (result == null))
+                    Log.d("TactoLM_UI", "Processing haptic loop stopped")
                     hapticPlayer.stopProcessing()
 
-                    if (result == null) {
-                        // Error condition
-                        hapticPlayer.playError()
-                        showError("Connection failed. Please retry.")
-                        isScanning = false
-                        setScanButtonEnabled(true)
-                        return@launch
-                    }
-
-                    // Sort by priority, deduplicate by category, skip ERROR items
-                    val sortedItems = result.items
-                        .filter { it.category != "ERROR" }
-                        .sortedBy { it.priority }
-                        .distinctBy { it.category }
-
-                    // Play sequence
-                    hapticPlayer.play(sortedItems) { item ->
-                        // This fires on the main thread for each item
-                        addCardForItem(item)
-                        // Scroll to bottom so latest card is visible
-                        scrollView.post {
-                            scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+                    when (result) {
+                        is AnalysisResult.Failure -> {
+                            Log.e("TactoLM_UI", "Result was null. Showing error message to user.")
+                            hapticPlayer.playError()
+                            showError("Something went wrong. Please try again.")
+                            isScanning = false
+                            setScanButtonEnabled(true)
+                            return@launch
                         }
-                    }
+                        is AnalysisResult.Success -> {
+                            Log.d("TactoLM_UI", "Valid result received. Starting haptic sequence.")
+                            val sceneResult = result.scene
 
-                    // Show scene summary after all items done
-                    if (result.summary.isNotBlank()) {
-                        withContext(Dispatchers.Main) {
-                            tvSceneSummary.text = result.summary
-                            tvSceneSummary.visibility = View.VISIBLE
-                            val anim = AlphaAnimation(0f, 1f).apply { duration = 600 }
-                            tvSceneSummary.startAnimation(anim)
+                            // Sort by priority, deduplicate by category, skip ERROR items
+                            val sortedItems = sceneResult.items
+                                .filter { it.category != "ERROR" }
+                                .sortedBy { it.priority }
+                                .distinctBy { it.category }
+
+                            Log.d("TactoLM_UI", "Total items to play: " + sceneResult.items.size)
+
+                            // Play sequence
+                            hapticPlayer.play(sortedItems) { item ->
+                                // This fires on the main thread for each item
+                                addCardForItem(item)
+                                // Scroll to bottom so latest card is visible
+                                scrollView.post {
+                                    scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+                                }
+                            }
+
+                            // Show scene summary after all items done
+                            if (sceneResult.summary.isNotBlank()) {
+                                withContext(Dispatchers.Main) {
+                                    Log.d("TactoLM_UI", "Scene summary displayed: " + sceneResult.summary)
+                                    tvSceneSummary.text = sceneResult.summary
+                                    tvSceneSummary.visibility = View.VISIBLE
+                                    val anim = AlphaAnimation(0f, 1f).apply { duration = 600 }
+                                    tvSceneSummary.startAnimation(anim)
+                                }
+                            }
+
+                            // Cooldown then re-enable
+                            delay(2000L)
+                            withContext(Dispatchers.Main) {
+                                isScanning = false
+                                setScanButtonEnabled(true)
+                            }
                         }
-                    }
-
-                    // Cooldown then re-enable
-                    delay(2000L)
-                    withContext(Dispatchers.Main) {
-                        isScanning = false
-                        setScanButtonEnabled(true)
                     }
                 }
             }
 
             override fun onError(exception: ImageCaptureException) {
+                Log.e("TactoLM_UI", "CameraX capture FAILED")
                 hapticPlayer.stopProcessing()
                 runOnUiThread {
                     showError("Camera capture failed. Please retry.")
@@ -317,6 +351,7 @@ class TactoActivity : AppCompatActivity() {
     }
 
     private fun addCardForItem(item: SceneItem) {
+        Log.d("TactoLM_UI", "Showing card for item: " + item.label + " category: " + item.category)
         val card = layoutInflater.inflate(R.layout.item_tacto_card, cardContainer, false)
 
         val tvLabel      = card.findViewById<TextView>(R.id.tacto_card_tv_label)
@@ -336,6 +371,7 @@ class TactoActivity : AppCompatActivity() {
             duration = 400
             fillAfter = true
         }
+        Log.d("TactoLM_UI", "Card fade-in animation started for: " + item.label)
         card.startAnimation(fadeIn)
         card.animate().alpha(1f).setDuration(400).start()
     }

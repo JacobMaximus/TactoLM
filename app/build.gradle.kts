@@ -66,8 +66,8 @@ dependencies {
     implementation(libs.androidx.coordinatorlayout)
     implementation(libs.kotlinx.coroutines.android)
 
-    // Networking
-    implementation(libs.okhttp)
+    // Generative AI SDK
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
 
     // CameraX functionality
     implementation(libs.androidx.camera.core)

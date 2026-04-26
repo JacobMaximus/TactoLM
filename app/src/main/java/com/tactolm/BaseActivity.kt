@@ -65,7 +65,10 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         }
         navBtnVision.setOnClickListener {
-            Toast.makeText(this, "Vision: Not implemented yet", Toast.LENGTH_SHORT).show()
+            if (activeTab != NAV_VISION) {
+                startActivity(Intent(this, TactoActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+            }
         }
         navBtnDoorbell.setOnClickListener {
             Toast.makeText(this, "Door Bell: Not implemented yet", Toast.LENGTH_SHORT).show()

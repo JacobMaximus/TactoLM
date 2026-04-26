@@ -47,6 +47,7 @@ class HapticSequencePlayer(
      * Call [stopProcessing] to cancel it.
      */
     fun startProcessing() {
+        Log.d("TactoLM_Haptic", "Processing haptic loop starting.")
         if (!vibrator.hasVibrator()) return
         try {
             vibrator.vibrate(TactonLibrary.processingEffect)
@@ -59,8 +60,10 @@ class HapticSequencePlayer(
      * Cancel the processing loop vibration immediately.
      */
     fun stopProcessing() {
+        Log.d("TactoLM_Haptic", "Processing haptic loop stopping.")
         try {
             vibrator.cancel()
+            Log.d("TactoLM_Haptic", "Vibrator cancelled.")
         } catch (e: Exception) {
             Log.e(TAG, "stopProcessing cancel failed: ${e.message}")
         }
@@ -78,6 +81,8 @@ class HapticSequencePlayer(
      * This is a suspend function — call from a coroutine.
      */
     suspend fun play(items: List<SceneItem>, onItemReady: (SceneItem) -> Unit) {
+        Log.d("TactoLM_Haptic", "=== HAPTIC SEQUENCE PLAY CALLED ===")
+        Log.d("TactoLM_Haptic", "Number of items: " + items.size)
         lastItems = items
         lastOnItemReady = onItemReady
         playSequence(items, onItemReady)
@@ -88,9 +93,14 @@ class HapticSequencePlayer(
      * Safe to call from any thread.
      */
     fun replay() {
+        Log.d("TactoLM_Haptic", "Replay called.")
         val items = lastItems
+        Log.d("TactoLM_Haptic", "Last sequence item count: " + items.size)
         val callback = lastOnItemReady ?: return
-        if (items.isEmpty()) return
+        if (items.isEmpty()) {
+            Log.d("TactoLM_Haptic", "Replay called but lastSequence is empty. Nothing to play.")
+            return
+        }
 
         scope.launch(Dispatchers.IO) {
             playSequence(items, callback)
@@ -103,25 +113,42 @@ class HapticSequencePlayer(
         items: List<SceneItem>,
         onItemReady: (SceneItem) -> Unit
     ) = withContext(Dispatchers.IO) {
+        var index = 1
         for (item in items) {
+            Log.d("TactoLM_Haptic", "--- Item " + index + " of " + items.size + " ---")
+            Log.d("TactoLM_Haptic", "Label: " + item.label)
+            Log.d("TactoLM_Haptic", "Category: " + item.category)
+            Log.d("TactoLM_Haptic", "Confidence: " + item.confidence)
+            Log.d("TactoLM_Haptic", "Priority: " + item.priority)
+            Log.d("TactoLM_Haptic", "Firing haptic for category: " + item.category)
+            
             // Fire haptic
             val effect = TactonLibrary.getEffect(item.category)
-            if (effect != null && vibrator.hasVibrator()) {
-                try {
-                    vibrator.cancel()
-                    vibrator.vibrate(effect)
-                } catch (e: Exception) {
-                    Log.e(TAG, "vibrate failed for ${item.category}: ${e.message}")
+            if (effect != null) {
+                if (vibrator.hasVibrator()) {
+                    try {
+                        vibrator.cancel()
+                        vibrator.vibrate(effect)
+                        Log.d("TactoLM_Haptic", "Haptic fired successfully for: " + item.label)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "vibrate failed for ${item.category}: ${e.message}")
+                    }
                 }
+            } else {
+                Log.e("TactoLM_Haptic", "ERROR: No haptic pattern found for category: " + item.category)
             }
 
             // Notify UI on the main thread immediately (same moment as haptic)
             withContext(Dispatchers.Main) {
+                Log.d("TactoLM_Haptic", "onItemReady callback invoked for: " + item.label)
                 onItemReady(item)
             }
 
             delay(ITEM_GAP_MS)
+            Log.d("TactoLM_Haptic", "Gap complete. Moving to next item.")
+            index++
         }
+        Log.d("TactoLM_Haptic", "=== HAPTIC SEQUENCE COMPLETE ===")
     }
 
     // ── Error haptic helper ───────────────────────────────────────────────────
