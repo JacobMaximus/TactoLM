@@ -65,6 +65,15 @@ class DoorbellActivity : BaseActivity() {
         checkPermissionBanner()
     }
 
+    override fun getNavigableViews(): List<View> {
+        val views = mutableListOf<View>()
+        if (bannerMicPermission.visibility == View.VISIBLE) {
+            views.add(btnGrantMic)
+        }
+        views.add(cardToggle)
+        return views
+    }
+
     private fun bindViews() {
         cardToggle = findViewById(R.id.card_doorbell_toggle)
         viewPulseRing = findViewById(R.id.view_pulse_ring)

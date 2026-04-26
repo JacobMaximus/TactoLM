@@ -100,6 +100,8 @@ class TactoActivity : BaseActivity() {
         }
     }
 
+    override fun getNavigableViews(): List<View> = listOf(btnScan)
+
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
