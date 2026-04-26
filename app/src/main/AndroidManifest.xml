@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
 
     <application
         android:allowBackup="true"
@@ -73,6 +75,12 @@
             android:exported="false"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
+
+        <!-- ── App Selection Page ──────────────────────────────────────── -->
+        <activity
+            android:name=".AppSelectionActivity"
+            android:exported="false"
+            android:parentActivityName=".NotificationsActivity" />
 
     </application>
 

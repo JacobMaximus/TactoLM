@@ -30,6 +30,8 @@ class NotificationsActivity : BaseActivity() {
     private lateinit var feedContainer: LinearLayout
     private lateinit var bannerGrant: View
     private lateinit var btnGrantAccess: LinearLayout
+    private lateinit var bannerNoApps: View
+    private lateinit var btnFilterApps: LinearLayout
 
     // ── Live update receiver ──────────────────────────────────────────────────
     private val notifReceiver = object : BroadcastReceiver() {
@@ -47,6 +49,8 @@ class NotificationsActivity : BaseActivity() {
         feedContainer  = findViewById(R.id.feed_container)
         bannerGrant    = findViewById(R.id.banner_grant)
         btnGrantAccess = findViewById(R.id.btn_grant_access)
+        bannerNoApps   = findViewById(R.id.banner_no_apps)
+        btnFilterApps  = findViewById(R.id.btn_filter_apps)
 
         setupNavBar(NAV_FEED)
 
@@ -54,6 +58,10 @@ class NotificationsActivity : BaseActivity() {
 
         btnGrantAccess.setOnClickListener {
             startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
+        }
+
+        btnFilterApps.setOnClickListener {
+            startActivity(Intent(this, AppSelectionActivity::class.java))
         }
     }
 
@@ -63,6 +71,14 @@ class NotificationsActivity : BaseActivity() {
         // Show/hide permission banner
         val hasAccess = isNotificationAccessGranted()
         bannerGrant.visibility = if (hasAccess) View.GONE else View.VISIBLE
+
+        // Check if apps are selected
+        val prefs = getSharedPreferences("TactoLM_Prefs", Context.MODE_PRIVATE)
+        val selectedApps = prefs.getStringSet("selected_apps", emptySet()) ?: emptySet()
+        val hasSelectedApps = selectedApps.isNotEmpty()
+
+        // Show/hide no-apps banner
+        bannerNoApps.visibility = if (hasAccess && !hasSelectedApps) View.VISIBLE else View.GONE
 
         // Rebuild the feed from the live store
         feedContainer.removeAllViews()
