@@ -16,6 +16,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
@@ -51,6 +52,7 @@ class TactoActivity : BaseActivity() {
     private lateinit var tvSceneSummary: TextView
     private lateinit var scrollView: ScrollView
     private lateinit var cardContainer: LinearLayout
+    private lateinit var loadingSpinner: ProgressBar
 
     // ── Camera ────────────────────────────────────────────────────────────────
     private var imageCapture: ImageCapture? = null
@@ -133,6 +135,7 @@ class TactoActivity : BaseActivity() {
         tvSceneSummary   = findViewById(R.id.tacto_tv_scene_summary)
         scrollView       = findViewById(R.id.tacto_scroll_view)
         cardContainer    = findViewById(R.id.tacto_card_container)
+        loadingSpinner   = findViewById(R.id.loadingSpinner)
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -198,6 +201,7 @@ class TactoActivity : BaseActivity() {
                         )
                     )
                 }
+                loadingSpinner.visibility = View.VISIBLE
                 startScanFlow()
             }
         }
@@ -277,11 +281,15 @@ class TactoActivity : BaseActivity() {
                     Log.d("TactoLM_UI", "GeminiVisionGateway returned result")
                     Log.d("TactoLM_UI", "Result is null: " + (result == null))
 
+                    withContext(Dispatchers.Main) {
+                        loadingSpinner.visibility = View.GONE
+                    }
+
                     when (result) {
                         is AnalysisResult.Failure -> {
                             Log.e("TactoLM_UI", "Result was null. Showing error message to user.")
                             hapticPlayer.playError()
-                            showError("Something went wrong. Please try again.")
+                            showError("API rate limit reached. Please try again later.")
                             isScanning = false
                             setScanButtonEnabled(true)
                             return@launch
@@ -332,8 +340,8 @@ class TactoActivity : BaseActivity() {
 
             override fun onError(exception: ImageCaptureException) {
                 Log.e("TactoLM_UI", "CameraX capture FAILED")
-                hapticPlayer.stopProcessing()
                 runOnUiThread {
+                    loadingSpinner.visibility = View.GONE
                     showError("Camera capture failed. Please retry.")
                     isScanning = false
                     setScanButtonEnabled(true)
