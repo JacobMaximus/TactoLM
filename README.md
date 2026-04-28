@@ -1,73 +1,72 @@
-# TactoLM 🟢
+# TactoLM
 
-> **A dual-track sensory substitution system providing high-fidelity haptic feedback for the deafblind.**
-> Crafted with **Antigravity** for the GDG Bangalore Hackathon.
+Haptic communication system making smartphones accessible to deafblind users through AI-classified vibration patterns.
 
-TactoLM bridges the gap between complex visual/auditory environments and the tactile senses. By combining ultra-low-latency on-device machine learning with the deep semantic reasoning of Google's Gemini, TactoLM translates the world into rich, structured haptic feedback (Tactons) that users can intuitively feel and understand.
-
-## 🌟 Project Overview
-
-For deafblind individuals, navigating the world requires an immense amount of cognitive load. TactoLM acts as a digital white cane with "eyes" and "ears". Instead of relying solely on slow braille displays or simple vibration motors, TactoLM introduces a **Dual-Track Architecture**:
-
-- **Fast Track (On-Device):** Uses TensorFlow Lite for immediate, critical environmental audio classification (e.g., sirens, doorbells, sudden loud noises). This triggers highly tuned haptic patterns instantly.
-- **Smart Track (Cloud):** Uses **Google Gemini 2.0 Flash** to process complex visual scenes and provide semantic distillation. Instead of reading out a visual description, Gemini analyzes the scene and assigns cognitive priority, feeding data back into our custom haptic `LRADispatcher`.
-
-The entire experience is wrapped in a premium, glassmorphic dark-mode UI designed for high contrast and accessibility, driven by precise LRA (Linear Resonant Actuator) haptic waveforms.
+> Built for the GDG Bangalore Hackathon.
 
 ---
 
-## ⚡ Tech Stack (Powered by Google)
+## Overview
 
-TactoLM heavily leverages state-of-the-art Google technologies to achieve both speed and intelligence:
+For deafblind individuals, very few software solutions exist that allow them to interact with the digital world independently. Dedicated hardware alternatives such as refreshable Braille displays and robotic tactile devices cost upwards of ₹10,00,000 per unit, placing them out of reach for the vast majority of the 35,000+ deafblind individuals in Karnataka alone.
 
-- **[Google Gemini 2.0 Flash API]**: The brain of the "Smart Track". We utilize the native `generativeai` Android SDK to perform multi-modal reasoning on environmental data, allowing TactoLM to understand context (e.g., "A dog is running towards you") rather than just raw pixels.
-- **[TensorFlow Lite Audio Tasks]**: Powers the "Fast Track". We run lightweight `tflite` models directly on-device to classify ambient audio (like doorbells or transit sounds) with zero network latency, ensuring user safety.
-- **[AndroidX CameraX]**: Used for robust, lifecycle-aware camera session management to capture visual context for Gemini.
-- **Kotlin & Android SDK**: The core application is built natively in Kotlin, utilizing Coroutines for asynchronous pipeline management and Material Design for the UI foundations.
+TactoLM runs on any Android phone they already own.
+
+It translates the environment into a structured vocabulary of haptic patterns called Tactons. These patterns are engineered to target distinct mechanoreceptors in the fingertip. Each pattern is perceptually distinct. The user learns this vocabulary once, and from that point the phone communicates through touch.
 
 ---
 
-## 🚀 Setup Instructions
+## Features
 
-Follow these steps to get TactoLM running locally on your Android device (A device with a high-quality LRA haptic motor, like the Poco X7 Pro, is highly recommended for the best experience).
+**Vision Scan** —
+The user photographs their environment. Gemini analyzes the image and identifies objects by safety priority, including hazards, people, furniture, food, and animals. Each category fires its corresponding Tacton in sequence, giving the user a tactile picture of their surroundings.
+
+**Notification Intelligence** —
+Incoming notifications are semantically classified in real time. Emergency alerts, health messages, and social notifications each produce a distinct haptic signal. The user understands the nature of the information without reading a single word.
+
+**Doorbell Detection** —
+A persistent background service listens for doorbell audio via TensorFlow Lite. On detection, a dedicated Tacton fires immediately, alerting the user that someone is at their door.
+
+**Tacton Library** —
+A custom haptic engine built on Android's VibrationEffect .createWaveform() API produces precise waveform patterns such as PULSE_BURST, HEALTH_RAMP, SLOW_RAMP, NAV_SLIDE.
+
+**Teach Mode** —
+A structured onboarding session that pairs each Tacton with physical hand signing by an interpreter, building the user's haptic vocabulary before independent use.
+
+---
+
+## Tech Stack
+
+- **Google Gemini 2.5 Flash** — semantic classification of visual scenes via the native Android generativeai SDK
+- **TensorFlow Lite Audio** — on-device audio classification
+- **AndroidX CameraX** — single photo capture for the vision scan feature
+- **Kotlin** — coroutines for async pipeline management, VibrationEffect API for haptic dispatch
+- **Android SDK** — API 28 minimum
+
+---
+
+## Setup
 
 ### Prerequisites
-- **Android Studio** (Koala or later recommended)
-- **JDK 17**
-- A physical Android device running Android 9.0 (API level 28) or higher.
+- Android Studio Koala or later
+- JDK 17
+- Physical Android device running Android 9.0 (API 28) or higher
+- A device with a high-quality LRA motor is recommended (tested on Poco X7 Pro)
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/Arshath-AD/TactoLM.git
-cd TactoLM
+### Installation
+1. Clone the Repository
+
+2. Obtain a Gemini API key from Google AI Studio (https://aistudio.google.com) and add it to your local.properties file in the project root:
+```
+GEMINI_API_KEY=your_api_key_here
 ```
 
-### 2. Configure Google Gemini API Key
-TactoLM requires a Gemini API key to function. 
-1. Get an API key from [Google AI Studio](https://aistudio.google.com/).
-2. In your project root, open the `local.properties` file (or create it if it doesn't exist).
-3. Add your API key:
-   ```properties
-   GEMINI_API_KEY=your_actual_api_key_here
-   ```
-*(Note: Do not commit your `local.properties` file to version control).*
+Do not commit local.properties to version control.
 
-### 3. Build and Run
-1. Open the project in **Android Studio**.
-2. Sync the project with Gradle files.
-3. Connect your Android device via USB or Wireless Debugging.
-4. Click **Run** (`Shift + F10`) to compile and deploy the `app-debug.apk` to your device.
+3. Open the project in Android Studio, sync Gradle, connect your device, and run.
 
 ---
 
-## 🛠️ Key Features
+## Roadmap
 
-- **Vision / Scene Summary:** Takes snapshots of the environment, passes them to Gemini 2.0, and maps the context to predefined Haptic Scenarios (Social, Transit, Emergency).
-- **Doorbell Monitor:** A persistent background listener that identifies doorbell rings via TFLite and sends a distinct `pulse_burst` haptic pattern.
-- **Teach Mode:** Allows the system to learn specific environmental triggers tailored to the user.
-- **Tacton Haptic Library:** A custom Kotlin haptics engine (`TactonLibrary` & `LRADispatcher`) that generates precise waveform effects (`PULSE_BURST`, `HEALTH_RAMP`, `SLOW_RAMP`, `NAV_SLIDE`) rather than generic vibrations.
-
-<br>
-
----
-*Crafted with Antigravity*
+The current system communicates category and urgency. The next stage is full semantic content  a vibrotactile encoding system where any arbitrary text can be received as haptic pulses on the same phone, functioning as a complete Braille display replacement at zero hardware cost.
